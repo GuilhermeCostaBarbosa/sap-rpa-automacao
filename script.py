@@ -113,14 +113,14 @@ def update_lof(sess, df):
 
 
             # Preencher os campos necessários para cadastrar LOF do item
-            sess.findById("wnd[0]/usr/ctxtEORD-MATNR").text = material
+            wait_for_element("wnd[0]/usr/ctxtEORD-MATNR").text = material
             sess.findById("wnd[0]/usr/ctxtEORD-WERKS").text = centro
 
             # Acessar tela de preenchimento de dados
             sess.findById("wnd[0]").sendVKey(0)
 
             # preencher cada campo e salvar modificações
-            sess.findById("wnd[0]/usr/tblSAPLMEORTC_0205/chkRM06W-FESKZ[8,0]").selected = True
+            wait_for_element("wnd[0]/usr/tblSAPLMEORTC_0205/chkRM06W-FESKZ[8,0]").selected = True
             sess.findById("wnd[0]/usr/tblSAPLMEORTC_0205/ctxtEORD-VDATU[0,0]").text = in_vigencia
             sess.findById("wnd[0]/usr/tblSAPLMEORTC_0205/ctxtEORD-BDATU[1,0]").text = fim_vigencia
             sess.findById("wnd[0]/usr/tblSAPLMEORTC_0205/ctxtEORD-LIFNR[2,0]").text = fornecedor
@@ -149,18 +149,18 @@ def flags(sess, df):
 
             # Preenchendo campos necessarios
             sess.findById("wnd[0]").maximize()
-            sess.findById("wnd[0]/tbar[0]/okcd").text = "MM02"
+            wait_for_element("wnd[0]/tbar[0]/okcd").text = "MM02"
             sess.findById("wnd[0]").sendVKey(0)
-            sess.findById("wnd[0]/usr/ctxtRMMG1-MATNR").text = material
+            wait_for_element("wnd[0]/usr/ctxtRMMG1-MATNR").text = material
             sess.findById("wnd[0]/usr/ctxtRMMG1-MATNR").caretPosition = 7
             sess.findById("wnd[0]").sendVKey(0)
-            sess.findById("wnd[1]/tbar[0]/btn[0]").press()
+            wait_for_element("wnd[1]/tbar[0]/btn[0]").press()
             wait_for_element("wnd[1]/usr/ctxtRMMG1-WERKS").text = centro
             sess.findById("wnd[1]/usr/ctxtRMMG1-WERKS").caretPosition = 4
             sess.findById("wnd[1]/tbar[0]/btn[0]").press()
             
             # Atualizar flag de pedido automatico
-            sess.findById("wnd[0]/usr/tabsTABSPR1/tabpSP10/ssubTABFRA1:SAPLMGMM:2000/subSUB2:SAPLMGD1:2301/chkMARC-KAUTB").selected = True
+            wait_for_element("wnd[0]/usr/tabsTABSPR1/tabpSP10/ssubTABFRA1:SAPLMGMM:2000/subSUB2:SAPLMGD1:2301/chkMARC-KAUTB").selected = True
             sess.findById("wnd[0]/usr/tabsTABSPR1/tabpSP10/ssubTABFRA1:SAPLMGMM:2000/subSUB2:SAPLMGD1:2301/chkMARC-KAUTB").setFocus()
 
             # salvar alteracao
