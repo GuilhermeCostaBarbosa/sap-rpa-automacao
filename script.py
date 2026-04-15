@@ -135,10 +135,18 @@ def update_lof(sess, df):
             # Caso algum item der erro, informar material em log e prosseguir com o restante
             logging.warning(f"Falha ao processar material {material} na ME01: {e}")
             continue
+    
+    # Sair da transação ao finalizar o loop
+    sess.findById("wnd[0]/tbar[0]/btn[15]").press()
 
 #  Ativa flag para emissão de pedido automático após vincular lof
 def flags(sess, df):
     logging.info('Iniciando automação de flags (MM02)...')
+
+    # Acessar a transação MM02
+    sess.findById("wnd[0]").maximize()
+    wait_for_element("wnd[0]/tbar[0]/okcd").text = "MM02"
+    sess.findById("wnd[0]").sendVKey(0)
 
     # Loop para atualizar flag de cada item em DF
     for itens in tqdm(df.index, desc='Atualizando flags (MM02)'):
@@ -148,9 +156,6 @@ def flags(sess, df):
             centro = int(df.loc[itens, 'centro'])
 
             # Preenchendo campos necessarios
-            sess.findById("wnd[0]").maximize()
-            wait_for_element("wnd[0]/tbar[0]/okcd").text = "MM02"
-            sess.findById("wnd[0]").sendVKey(0)
             wait_for_element("wnd[0]/usr/ctxtRMMG1-MATNR").text = material
             sess.findById("wnd[0]/usr/ctxtRMMG1-MATNR").caretPosition = 7
             sess.findById("wnd[0]").sendVKey(0)
@@ -168,7 +173,9 @@ def flags(sess, df):
         except Exception as e:
             logging.warning(f'Falhar ao atualizar o material {material} na MM02: {e}')
             continue
-        
+    
+    # Sair da transação ao finalizar o loop
+    sess.findById("wnd[0]/tbar[0]/btn[15]").press()
 
 if __name__ == '__main__':
     NOME_ARQUIVO = 'tabela_materiais.xlsx'
