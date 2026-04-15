@@ -1,5 +1,4 @@
 import pandas as pd
-import win32com.client
 from time import time, sleep
 from tqdm import tqdm
 import logging
@@ -8,9 +7,9 @@ import sys
 # Configuração de Logs
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)',
+    format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('robo_sap.log', mode='a', encoding='utf-8'),
+        logging.FileHandler('script_sap.log', mode='a', encoding='utf-8'),
         logging.StreamHandler(sys.stdout)
     ]
 )
@@ -28,8 +27,8 @@ def validar_planilha(caminho_arquivo):
     
     # verificando de arquivo está vázio
     if df.empty:
-        logging.error(f"A planilha carrega está vazia")
-        raise ValueError("A planiha está vazia")
+        logging.error(f"A planilha carregada está vazia")
+        raise ValueError("A planilha carregada está vazia")
 
     # Validando se o arquivo possui todas as colunas necessárias para automação
     col_necessarias = ['Cod_Sap', 'centro', 'in_vig', 'fim_vig', 'Fornecedor', 'OrgC', 'Contrato', 'Item']
@@ -47,6 +46,7 @@ session = None
 
 # Inicando conexão com o SAP
 def connect_sap():
+    import win32com.client
     logging.info("Tentando conecetar co SAP GUI...")
     try:
         SapGuiAuto = win32com.client.GetObject("SAPGUI")
